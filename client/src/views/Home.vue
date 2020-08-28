@@ -128,14 +128,14 @@
                   class="pt-2"                
                 >
                   <v-btn
-                  :href="btn.link" 
+                  :href="btn.file_link" 
                   height="100" 
                   block
                   x-large
                   max-width="" 
                   :color="btn.color" 
                   dark
-                  > <p class="no-uppercase pt-4"> {{btn.text}} </p>
+                  > <p class="no-uppercase pt-4"> {{btn.file_name}} </p>
                   </v-btn>
                   <div>
                   <div class="d-flex justify-end">
@@ -226,19 +226,22 @@ export default {
   components: {
 
   },
-  created() {
+  async created() {
 
         try {
             //Envia los datos al servidor 
-            const res = axios.post('/api/key', null);
-
-            if(res.data.message === 'success'){
-                //aqui se alimenta el array de los botones
-            } else {
-                console.log("Hubo un problema en la base de datos MySQL")
-            }
+            axios.post('/api/buttons', null).then(response => {
+              //Si la consulta SQL fue exitosa
+              if (response.data.message === "Success")
+                //console.log(response.data.queryButtons),
+                this.arrayBotones = response.data.queryButtons
+                //Si fallo la consulta SQL
+              else {console.log(response.data.message) }
+            }).catch(error =>{
+              console.log(error)
+            })
         } catch (error) {
-            console.log("Error en el servidor...")
+            console.log("Error en el servidor(req or response)...")
             console.log(error)
         }
         
@@ -249,14 +252,7 @@ export default {
       clave: null,
       accesoClave: "3224",
       show: null,
-      arrayBotones: [
-        {text: "Version BETA 20", link: "download/beta20.apk", color: "red darken-1"},
-        {text: "Version BETA 21", link: "download/beta21.apk", color: "red"},
-        {text: "Version BETA 22", link: "download/beta22.apk", color: "red darken-4"},
-        {text: "Version BETA 22", link: "download/beta22.apk", color: "red darken-4"},
-        {text: "Version BETA 22", link: "download/beta22.apk", color: "red darken-4"},
-        {text: "Version BETA 22", link: "download/beta22.apk", color: "red darken-4"}
-      ] 
+      arrayBotones: [] 
     }),
   methods: {
     openOptions() {

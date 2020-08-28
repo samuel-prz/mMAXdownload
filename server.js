@@ -11,7 +11,7 @@ app.use(morgan('dev'));
 app.use(express.json())
 
 
-app.use('/api', require('./routes/key.route.js'));
+app.use('/api', require('./routes/buttons.route.js'));
 
 //Inicio del servidor
 app.listen(3000, ()=>{
