@@ -5,13 +5,13 @@ const morgan = require('morgan');
 const app = express();
 
 
+
 //middleware
 app.use(morgan('dev'));
 app.use(express.json())
 
 
-//routes
-app.use('/api', require('./routes/mailer.routes.js'));
+app.use('/api', require('./routes/key.route.js'));
 
 //Inicio del servidor
 app.listen(3000, ()=>{
