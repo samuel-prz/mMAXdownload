@@ -6,7 +6,7 @@ const Buttons = {};
 Buttons.getButtons = async (req,res) => {
     try{
                //realizamos una  consulta ,
-        var queryButtons = await pool.query("SELECT * FROM download_files ");
+        var queryButtons = await pool.query("SELECT * FROM botones ");
         
         console.log((queryButtons).length)
         //Si la consulta no dio 0 resultados

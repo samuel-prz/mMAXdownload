@@ -128,14 +128,14 @@
                   class="pt-2"                
                 >
                   <v-btn
-                  :href="btn.file_link" 
+                  :href="btn.btn_link" 
                   height="100" 
                   block
                   x-large
                   max-width="" 
-                  :color="btn.color" 
+                  :color="btn.btn_color" 
                   dark
-                  > <p class="no-uppercase pt-4"> {{btn.file_name}} </p>
+                  > <p class="no-uppercase pt-4"> {{btn.btn_texto}} </p>
                   </v-btn>
                   <div>
                   <div class="d-flex justify-end">
