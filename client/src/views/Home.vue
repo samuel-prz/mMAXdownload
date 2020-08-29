@@ -110,104 +110,103 @@
 
             <!-- ARRAY BOTONES -->
             <!-- -->
-            <v-row>
-              <v-col cols="6">
-                <div class="d-flex justify-center">
-  <v-row justify="center">
-    <v-dialog v-model="dialog_newButton" persistent max-width="600px">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          New Button +
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-title>
-          <span class="headline">Add new button</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12" sm="6" md="12">
-                <v-text-field label="Legal first name*" required></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="12">
-                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="12">
-                <v-text-field
-                  label="Legal last name*"
-                  hint="example of persistent helper text"
-                  persistent-hint
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
-          </v-container>
-          <small>*Verifica antes de guardar!</small>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog_newButton = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog_newButton = false">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
-                </div>
-                <div
-                  v-for="btn in arrayBotones" 
-                  :key="btn"
-                  class="pt-2"                
-                >
-                  <v-btn
-                  :href="btn.btn_link" 
-                  height="100" 
-                  block
-                  x-large
-                  max-width="" 
-                  :color="btn.btn_color" 
-                  dark
-                  > <p class="no-uppercase pt-4"> {{btn.btn_texto}} </p>
-                  </v-btn>
-                  <div>
-                  <div class="d-flex justify-end">
-                    <v-btn
-                    v-if="show===true"
-                     @click="open()">
-                      edit
-                    </v-btn>
-                    <v-btn
-                    dark
-                    v-if="show===true"
-                    >
-                      delete 
-                    </v-btn>
-                  </div>
-                  </div>
-                </div>          
-              </v-col>
-            </v-row>
-          </v-container>
-            <v-container class="hidden-sm-and-up " >
-              <v-row class="">
-
-                <v-col cols="12">
-                    <h1 class="display-1 my-6 font-weight-bold text-center "> Ingenieros-Analistas-Programadores </h1>
-                      <p class=" text-center "> 
-                      Calle Las Carreras, Edificio Madeline #29 <br>
-                      Oficinas 809-242-0034 <br>
-                      Félix Berto Castillo (829) 868-3200 <br>
-                      Carlos Díaz (809) 787-3200 <br>
-                      Samuel Pérez (829) 410-0568 <br>
-                      </p>
+<v-row>
+  <v-col cols="12" lg="6" >
+    <div class="d-flex justify-center">
+      <v-row justify="center" v-if="show===true">
+        <v-dialog v-model="dialog_newButton" persistent max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              dark
+              v-bind="attrs"
+              v-on="on"
+            >
+              New Button +
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="headline">Add new button</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="12">
+                    <v-text-field v-model="pTexto" label="DEMO..." outlined required></v-text-field>
                   </v-col>
-              </v-row>
-          </v-container>
+                  <v-col cols="12" sm="6" md="12">
+                    <v-text-field v-model="pFile" label="Link..." outlined required></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="12">
+                    <v-text-field v-model="pVersion" label="Version/Fecha" outlined required></v-text-field>
+                  </v-col>
+                  <v-col cols="11" sm="6" md="12">
+                    <h4 class="px-4">Color</h4>
+                    <v-color-picker v-model="pColor" class="ma-2" show-swatches swatches-max-height="600px"></v-color-picker>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <small>*Verifica antes de guardar!</small>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="black" text @click="dialog_newButton = false">Close</v-btn>
+              <v-btn color="blue darken-1" dark @click="newBtn(), dialog_newButton = false">Add</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        </v-row>
+          </div>
+          <div
+            v-for="btn in arrayBotones" 
+            :key="btn"
+            class="pt-2"                
+          >
+            <v-btn
+            :href="btn.btn_link" 
+            height="100" 
+            block
+            x-large
+            max-width="" 
+            :color="btn.btn_color" 
+            dark
+            > <p class="no-uppercase pt-4"> {{btn.btn_texto}} </p>
+            </v-btn>
+            <div>
+            <div class="d-flex justify-end">
+              <v-btn
+              v-if="show===true"
+                @click="open()">
+                edit
+              </v-btn>
+              <v-btn
+              dark
+              v-if="show===true"
+              >
+                delete 
+              </v-btn>
+            </div>
+            </div>
+          </div>          
+        </v-col>
+      </v-row>
+    </v-container>
+      <v-container class="hidden-sm-and-up " >
+        <v-row class="">
+
+          <v-col cols="12">
+              <h1 class="display-1 my-6 font-weight-bold text-center "> Ingenieros-Analistas-Programadores </h1>
+                <p class=" text-center "> 
+                Calle Las Carreras, Edificio Madeline #29 <br>
+                Oficinas 809-242-0034 <br>
+                Félix Berto Castillo (829) 868-3200 <br>
+                Carlos Díaz (809) 787-3200 <br>
+                Samuel Pérez (829) 410-0568 <br>
+                </p>
+            </v-col>
+        </v-row>
+    </v-container>
         </div>
         </div>
 
@@ -218,7 +217,7 @@
         width="100%"
         class="text-center"
       >
-      <h1>{{this.$store.state.accesoState}}</h1>
+     <!-- <h1>{{this.$store.state.accesoState}}{{this.timestamp}}</h1> -->
         <v-card-text>
         <v-dialog v-model="dialog" max-width="200px">
           <template v-slot:activator="{ on, attrs }">
@@ -251,6 +250,11 @@
     >
       Welcome!
     </v-snackbar>
+    <v-snackbar
+      v-model="snackbarSave"
+    >
+      Guardado con Exito!
+    </v-snackbar>
 
 </div>
 </template>
@@ -265,7 +269,7 @@ export default {
 
   },
   async created() {
-
+        setInterval(this.getNow, 1000);
         try {
             //Envia los datos al servidor 
             axios.post('/api/buttons', null).then(response => {
@@ -285,17 +289,56 @@ export default {
         
   },
     data: () => ({
+      //Post Variables
+      pTexto: null,
+      pFile: null,
+      pVersion: null,
+      pColor: null,
+      //Dialogs
       dialog: false,
-      snackbar: false,
       dialog_newButton: false,
+      show: null,
+      //Alertas
+      snackbar: false,
+      snackbarSave: false,
+      //Variables
       clave: null,
       accesoClave: "3224",
-      show: null,
-      arrayBotones: [] 
+      arrayBotones: [],
+      timestamp: ""
     }),
   methods: {
+    getNow: function() {
+        const today = new Date();
+        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        const dateTime = date +' '+ time;
+        this.timestamp = dateTime;
+    },
     openNew() {
       this.dialog_newButton=true
+    },
+    async newBtn() {
+      const btnNew = {
+        //Crear variable del link
+        pColor: this.pColor.hexa,
+        pFecha: this.timestamp,
+        pVersion: this.pVersion,
+        pFile: this.pFile,
+        pTexto: this.pTexto,
+      }
+      console.log(btnNew)
+
+      if (this.clave === this.accesoClave && this.show === true) {
+        console.log("Correcto")
+        this.snackbarSave = true
+        this.dialog_newButton = false
+        this.update
+      } else {
+        this.update
+        console.log("Incorrecto")
+        this.show = false
+      }
     },
     async acceder() {
       if (this.clave === this.accesoClave) {
@@ -309,11 +352,30 @@ export default {
         console.log("Incorrecto")
         this.show = false
       }
-    }
+    },
+      async update() {
+          try {
+              //Envia los datos al servidor 
+              axios.post('/api/buttons', null).then(response => {
+                //Si la consulta SQL fue exitosa
+                if (response.data.message === "Success")
+                  //console.log(response.data.queryButtons),
+                  this.arrayBotones = response.data.queryButtons
+                  //Si fallo la consulta SQL
+                else {console.log(response.data.message) }
+              }).catch(error =>{
+                console.log(error)
+              })
+          } catch (error) {
+              console.log("Error en el servidor(req or response)...")
+              console.log(error)
+          }
+        }
   },
 }
 </script>
 <style>
+
 .no-uppercase {
      text-transform: none;
 }
