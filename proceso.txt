@@ -1,14 +1,19 @@
-Se establecio la conexion a la base de datos
-
 Ahora se necesita subir el archivo y que se guarde en el directorio del servidor (https://www.youtube.com/watch?v=GXe_JpBQLTQ)(https://www.youtube.com/watch?v=98YUIBPJWMo)
 
-Se debe guardar en la base de datos, informacion del estilo que el usuario eligio para el boton, asi como tambien la ruta que tiene en el servidor (ej: /download/pINTEGRO000.apk)
+Ventana de prevencion de eliminar boton
 
-Para ello se creara una ventana popup que tendra un form con:
-Texto del boton
-Color de boton
+Agregar botones a posINTEGRO
+
+Agregar mas aplicaciones
+
+**Se establecio la conexion a la base de datos
+
+**Se debe guardar en la base de datos, informacion del estilo que el usuario eligio para el boton, asi como tambien la ruta que tiene en el servidor (ej: /download/pINTEGRO000.apk)
+**Para ello se creara una ventana popup que tendra un form con:
+**Texto del boton
+**Color de boton
 Y archivo
 
-Se necesita un control de versiones para saber cual es el archivo mas reciente, tambien se almacenara en la base de datos
+**Se necesita un control de versiones para saber cual es el archivo mas reciente, tambien se almacenara en la base de datos
 
-TODOS los datos de los botones seran guardados al momento de agregar uno nuevo, es decir, el form.
+**TODOS los datos de los botones seran guardados al momento de agregar uno nuevo, es decir, el form.

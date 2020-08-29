@@ -6,9 +6,9 @@ const Buttons = {};
 Buttons.getButtons = async (req,res) => {
     try{
                //realizamos una  consulta ,
-        var queryButtons = await pool.query("SELECT * FROM botones ");
+        var queryButtons = await pool.query("SELECT * FROM botones WHERE btn_estado=1 ");
         
-        console.log((queryButtons).length)
+        //console.log((queryButtons).length)
         //Si la consulta no dio 0 resultados
         if ((queryButtons).length >= 1) {
             res.status(200).json({ queryButtons, message: 'Success'});

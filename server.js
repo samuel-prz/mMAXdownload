@@ -12,7 +12,7 @@ app.use(express.json())
 
 
 app.use('/api', require('./routes/buttons.route.js'));
-app.use('/api', require('./routes/createBtn_route.js'));
+app.use('/api', require('./routes/crudBtn_route.js'));
 //Inicio del servidor
 app.listen(3000, ()=>{
     console.log('server on port', 3000);

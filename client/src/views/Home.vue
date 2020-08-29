@@ -133,13 +133,16 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="12">
-                    <v-text-field v-model="pTexto" label="DEMO..." outlined required></v-text-field>
+                    <v-text-field v-model="pTexto" label="Button Text" outlined required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="12">
-                    <v-text-field v-model="pFile" label="Link..." outlined required></v-text-field>
+                    <v-text-field v-model="pLink" label="Path.." outlined required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="12">
-                    <v-text-field v-model="pVersion" label="Version/Fecha" outlined required></v-text-field>
+                    <v-text-field disabled v-model="pFile" label="File" outlined required></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="12">
+                    <v-text-field v-model="pVersion" label="Version" outlined required></v-text-field>
                   </v-col>
                   <v-col cols="11" sm="6" md="12">
                     <h4 class="px-4">Color</h4>
@@ -159,11 +162,12 @@
         </v-row>
           </div>
           <div
-            v-for="btn in arrayBotones" 
+            v-for="btn in arrayBotones"
             :key="btn"
             class="pt-2"                
           >
             <v-btn
+            :id="btn.btn_id"
             :href="btn.btn_link" 
             height="100" 
             block
@@ -177,13 +181,13 @@
             <div class="d-flex justify-end">
               <v-btn
               v-if="show===true"
-                @click="open()">
+                @click="editBtn()">
                 edit
               </v-btn>
               <v-btn
               dark
               v-if="show===true"
-              >
+              @click="deleteBtn(btn.btn_id)">
                 delete 
               </v-btn>
             </div>
@@ -270,22 +274,7 @@ export default {
   },
   async created() {
         setInterval(this.getNow, 1000);
-        try {
-            //Envia los datos al servidor 
-            axios.post('/api/buttons', null).then(response => {
-              //Si la consulta SQL fue exitosa
-              if (response.data.message === "Success")
-                //console.log(response.data.queryButtons),
-                this.arrayBotones = response.data.queryButtons
-                //Si fallo la consulta SQL
-              else {console.log(response.data.message) }
-            }).catch(error =>{
-              console.log(error)
-            })
-        } catch (error) {
-            console.log("Error en el servidor(req or response)...")
-            console.log(error)
-        }
+        this.update();
         
   },
     data: () => ({
@@ -294,6 +283,8 @@ export default {
       pFile: null,
       pVersion: null,
       pColor: null,
+      pLink: null,
+      pID:null,
       //Dialogs
       dialog: false,
       dialog_newButton: false,
@@ -324,21 +315,51 @@ export default {
         pColor: this.pColor.hexa,
         pFecha: this.timestamp,
         pVersion: this.pVersion,
+        pLink: this.pLink,
         pFile: this.pFile,
-        pTexto: this.pTexto,
+        pTexto: this.pTexto
+        
       }
       console.log(btnNew)
 
-      if (this.clave === this.accesoClave && this.show === true) {
-        console.log("Correcto")
-        this.snackbarSave = true
-        this.dialog_newButton = false
-        this.update
-      } else {
-        this.update
-        console.log("Incorrecto")
-        this.show = false
-      }
+          try {
+              //Envia los datos al servidor 
+              axios.post('/api/createBtn', btnNew).then(response => {
+                //Si la consulta SQL fue exitosa
+                if (response.data.message === "Success")
+                  console.log("Success Create"),
+                  this.update()
+                  //Si fallo la consulta SQL
+                else {console.log(response.data.message) }
+              }).catch(error =>{
+                console.log(error)
+              })
+          } catch (error) {
+              console.log("Error en el servidor(req or response)...")
+              console.log(error)
+          }
+    },
+    async deleteBtn(pID){
+          const btnDel = {
+            pID: pID
+          }
+          try {
+              //Envia los datos al servidor 
+              axios.post('/api/deleteBtn', btnDel).then(response => {
+                //Si la consulta SQL fue exitosa
+                if (response.data.message === "Success")
+                  console.log("Success delete"),
+                  this.update()
+                  //Si fallo la consulta SQL
+                else {console.log(response.data.message) }
+              }).catch(error =>{
+                console.log(error)
+              })
+          } catch (error) {
+              console.log("Error en el servidor(req or response)...")
+              console.log(error)
+          }
+
     },
     async acceder() {
       if (this.clave === this.accesoClave) {
@@ -346,8 +367,6 @@ export default {
         this.snackbar = true
         this.dialog = false
         this.show = true
-        //desde aqui se envia al store la inicializacion del action que lleva por nombre [update] y su parametro es [this.snackbar] que lleva el dato a modificar
-        this.$store.dispatch('update', this.snackbar)
       } else {
         console.log("Incorrecto")
         this.show = false
