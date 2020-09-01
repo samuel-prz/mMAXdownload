@@ -171,27 +171,37 @@
         :key="btn"
         class="pt-2"                
       >
-        <v-btn
-        :id="btn.btn_id"
-        :href="btn.btn_link" 
-        height="100" 
-        block
-        x-large
-        max-width="" 
-        :color="btn.btn_color" 
-        dark
-        > <p class="no-uppercase pt-4"> {{btn.btn_texto}} </p>
-        </v-btn>
+      <v-row>
+        <v-col cols="10">
+          <v-btn
+          :id="btn.btn_id"
+          :href="btn.btn_link" 
+          height="100" 
+          block
+          x-large
+          max-width="" 
+          :color="btn.btn_color" 
+          dark
+          > <p class="no-uppercase pt-4"> {{btn.btn_texto}} </p>
+          </v-btn>
+        </v-col>
+        <v-col cols="2">
+
+          <v-btn
+          dark
+          block
+          v-if="adminOptions===true"
+          @click="deleteBtn(btn.btn_id)">
+          
+            delete 
+          </v-btn>
+           <editDialog :pID="index" :arrayBotones="arrayBotones" v-if="adminOptions===true" />
+        </v-col>
+      </v-row>
+
         
-        <editDialog :arrayBotones="arrayBotones" v-if="adminOptions===true" />
-        <Dialog v-if="edit===true" :arrayBotones="arrayBotones" />
-        <v-btn
-        dark
-        v-if="adminOptions===true"
-        @click="deleteBtn(btn.btn_id)">
-        
-          delete 
-        </v-btn>
+
+       
         </div>
     </div>      
   </v-col>

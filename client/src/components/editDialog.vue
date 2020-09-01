@@ -1,9 +1,10 @@
 <template>
 <div>
-    <v-dialog v-model="dialog_newButton" persistent max-width="600px">
+    <v-dialog v-model="dialog_editButton" persistent max-width="600px">
         <template v-slot:activator="{ on, attrs }">
         <v-btn
             color="primary"
+            block
             dark
             v-bind="attrs"
             v-on="on"
@@ -22,21 +23,21 @@
             <v-row>
                 <v-col class="pt-2" cols="12" sm="6" md="12">
                 
-                <v-text-field autofocus v-model="arrayBotones[index].btn_texto" label="Button Text" outlined required :rules="[v => !!v || 'Item is required']"></v-text-field>
+                <v-text-field autofocus v-model="arrayBotones[pID].btn_texto" label="Button Text" outlined required :rules="[v => !!v || 'Item is required']"></v-text-field>
                 </v-col>
                 <v-col class="pt-2" cols="12" sm="6" md="12">
-                <v-text-field v-model="arrayBotones[index].btn_link" label="Path.." outlined required :rules="[v => !!v || 'Item is required']"></v-text-field>
+                <v-text-field v-model="arrayBotones[pID].btn_link" label="Path.." outlined required :rules="[v => !!v || 'Item is required']"></v-text-field>
                 </v-col>
                 <v-col class="pt-2" cols="12" sm="6" md="12">
-                <v-text-field disabled v-model="arrayBotones[index].btn_file" label="File" outlined required ></v-text-field>
+                <v-text-field disabled v-model="arrayBotones[pID].btn_file" label="File" outlined required ></v-text-field>
                 </v-col>
                 <v-col class="pt-2" cols="12" sm="6" md="12">
-                <v-text-field v-model="arrayBotones[index].btn_version" label="Version" outlined required :rules="[v => !!v || 'Item is required']"></v-text-field>
+                <v-text-field v-model="arrayBotones[pID].btn_version" label="Version" outlined required :rules="[v => !!v || 'Item is required']"></v-text-field>
                 </v-col>
                 <v-col class="pt-2" cols="12" sm="6" md="12">
                     <h4 class="px-4">Color</h4>
                     <div class="d-flex justify-center">
-                        <v-color-picker mode="hexa" v-model="arrayBotones[index].btn_color" :swatches="swatches" show-swatches hide-mode-switch class="px-2"></v-color-picker>
+                        <v-color-picker mode="hexa" v-model="arrayBotones[pID].btn_color" :swatches="swatches" show-swatches hide-mode-switch class="px-2"></v-color-picker>
                     </div>
                 </v-col>
             </v-row>
@@ -46,16 +47,11 @@
         </v-card-text>
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="black" text @click="dialog_newButton = false">Close</v-btn>
+            <v-btn color="black" text @click="dialog_editButton = false">Close</v-btn>
             <v-btn
             dark
             color="blue darken-1"
-            @click="newBtn"
-            >Add</v-btn>
-                        <v-btn
-            dark
-            color="blue darken-1"
-            @click="log"
+            @click="editBtn"
             >Add</v-btn>
         </v-card-actions>
         </v-card>
@@ -75,23 +71,16 @@ import axios from 'axios'
 export default {
     name: 'editDialog',
     //PASAR INDEX!!
-    props: ['arrayBotones'],
+    props: ['arrayBotones', 'pID'],
     data() { 
         return {
             index: 1,
             valid: false,
-            pTexto: null,
-            pFile: null,
-            pVersion: null,
-            pColor: null,
-            pLink: null,
-            pID: null,
-            dialog_newButton: false,
+            dialog_editButton: false,
             snackbarSave: false,
             newBtn_Rules: [
                 v => v.lenght > 3 || 'Llene los campos'
             ],
-            props: ['text_fields'],
             swatches: [
                 ['#FF0000', '#AA0000', '#550000'],
                 ['#FFFF00', '#AAAA00', '#555500'],
@@ -103,18 +92,20 @@ export default {
     },
     methods: {
         log() {
-            console.log(this.arrayBotones[0])
+            console.log(this.pID)
         },
-    async newBtn() {
+    async editBtn() {
         if(this.$refs.form.validate()){
+            
             const btnNew = {
                 //Crear variable del link
-                pColor: this.pColor.hexa,
-                pFecha: this.timestamp,
-                pVersion: this.pVersion,
-                pLink: this.pLink,
-                pFile: this.pFile,
-                pTexto: this.pTexto
+                pColor: this.arrayBotones[this.pID].btn_color,
+                pFecha: null,
+                pVersion: this.arrayBotones[this.pID].btn_version,
+                pLink: this.arrayBotones[this.pID].btn_link,
+                pFile: this.arrayBotones[this.pID].btn_file,
+                pTexto: this.arrayBotones[this.pID].btn_texto,
+                pID: this.arrayBotones[this.pID].btn_id
                 
                 
             }
@@ -122,19 +113,14 @@ export default {
 
                 try {
                     //Envia los datos al servidor 
-                    axios.post('/api/createBtn', btnNew).then(response => {
+                    axios.post('/api/editBtn', btnNew).then(response => {
                         //Si la consulta SQL fue exitosa
                         if (response.data.message === "Success")
-                        console.log("Success Create"),
+                        console.log("Success Edit"),
                         this.snackbarSave=true,
-                        this.dialog_newButton= false,
-                        this.$emit('update', null),
-                        //Vacear text-field
-                        this.pFile= null,
-                        this.pVersion= null,
-                        this.pColor= null,
-                        this.pLink= null,
-                        this.pTexto= null
+                        this.dialog_editButton= false,
+                        this.$emit('update', null)
+
                         //Si fallo la consulta SQL
 
                         else {console.log(response.data.message) }
