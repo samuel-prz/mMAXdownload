@@ -3,21 +3,22 @@ const pool = require('../db_connection');
 
 const controllers = {};
 
-controllers.getButtons = async (req,res) => {
+controllers.createButtons = async (req,res) => {
     try{
                //realizamos una  consulta ,
         //console.log(req.body.pTexto)
-        var createButtons = await pool.query("INSERT INTO `botones` (`btn_texto`, `btn_link`, `btn_color`, `btn_version`, `btn_fecha`, `btn_estado`) VALUES ('"+req.body.pTexto+"', '"+req.body.pLink+"', '"+req.body.pColor+"', '"+req.body.pVersion+"', '"+req.body.pFecha+"', '1')");
-        
-        //console.log(createButtons)
-        //Si la consulta no dio 0 resultados
-        if (createButtons) {
-            res.status(200).json({message: 'Success'});
-        }
-         else {
-             //Si la consulta da 0
-            res.status(200).json({ message: 'Error en los registros' });
-         }
+        //if(req.body)
+            var createButtons = await pool.query("INSERT INTO `botones` (`btn_texto`, `btn_link`, `btn_color`, `btn_version`, `btn_fecha`, `btn_estado`) VALUES ('"+req.body.pTexto+"', '"+req.body.pLink+"', '"+req.body.pColor+"', '"+req.body.pVersion+"', '"+req.body.pFecha+"', '1')");
+            
+            //console.log(createButtons)
+            //Si la consulta no dio 0 resultados
+            if (createButtons) {
+                res.status(200).json({message: 'Success'});
+            }
+            else {
+                //Si la consulta da 0
+                res.status(200).json({status: 'SQL', message: 'Error en los registros' });
+            }
         }catch(error){
         console.log(error)
         res.status(500).json({ message: 'Error en los servicios.' });
