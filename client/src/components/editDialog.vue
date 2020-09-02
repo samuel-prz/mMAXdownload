@@ -8,6 +8,8 @@
             dark
             v-bind="attrs"
             v-on="on"
+           class="rounded-sm"
+
         >
             Edit
         </v-btn>
@@ -116,10 +118,10 @@ export default {
                     axios.post('/api/editBtn', btnNew).then(response => {
                         //Si la consulta SQL fue exitosa
                         if (response.data.message === "Success")
-                        console.log("Success Edit"),
-                        this.snackbarSave=true,
-                        this.dialog_editButton= false,
-                        this.$emit('update', null)
+                            console.log("Success Edit"),
+                            this.snackbarSave=true,
+                            this.dialog_editButton= false,
+                            this.$emit('update', null)
 
                         //Si fallo la consulta SQL
 

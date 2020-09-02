@@ -6,12 +6,14 @@ const Buttons = {};
 Buttons.getButtons = async (req,res) => {
     try{
                //realizamos una  consulta ,
+        var queryApp = await pool.query("SELECT * FROM app WHERE app_estado=1 ");
+        //var queryButtons = await pool.query("SELECT * FROM botones WHERE btn_estado=1 ");
         var queryButtons = await pool.query("SELECT * FROM botones WHERE btn_estado=1 ");
-        
+       // var queryButtons = await pool.query("SELECT * FROM botones WHERE btn_estado=1 ");
         //console.log((queryButtons).length)
         //Si la consulta no dio 0 resultados
-        if ((queryButtons).length >= 1) {
-            res.status(200).json({ queryButtons, message: 'Success'});
+        if (((queryButtons).length >= 1) && ((queryApp).length >= 1) )   {
+            res.status(200).json({ queryApp, queryButtons, message: 'Success'});
         }
          else {
              //Si la consulta da 0

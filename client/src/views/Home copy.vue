@@ -21,66 +21,6 @@
         <v-container>
           <h1  class="display-1 my-6 font-weight-bold text-center "> Descargar APKs </h1>
           <v-row>
-            <v-col 
-            v-for="(app, indexApp) in arrayApp"
-            :key="app"
-            cols="12" lg="6"
-            >
-              <h2 class="font-weight-bold text-center "> {{app.app_text}} </h2>
-              <v-img
-                class="d-flex justify-center mb-6"
-                contain
-                :src="app.app_icon"
-                transition="scale-transition"
-                height="130"
-              />
-                  <div class="d-flex justify-center">
-                    <v-row justify="center" v-if="adminOptions===true">
-                      
-                      <Dialog  @update="update()" />
-
-                    </v-row>
-                  </div>
-                    <div        
-                      v-for="(btn, index) in arrayBotones"
-                      :key="btn"            
-                      >
-                          <v-row
-                            v-if="arrayApp[indexApp].app_id === arrayBotones[index].app_id"
-                            align="center"
-                            justify="center"
-                            class="pt-2 px-2"  
-                            >
-                            <v-btn
-                              :id="btn.btn_id"
-                              :href="btn.btn_link" 
-                              height="100" 
-                              block x-large 
-                              max-width="20"
-                              :color="btn.btn_color" 
-                              dark
-                                > <p class="no-uppercase pt-4"> {{btn.btn_texto}} </p>
-                            </v-btn>
-                            <v-btn
-                              class="rounded-sm"
-                              dark
-                              v-if="adminOptions===true"
-                              @click="deleteBtn(btn.btn_id)">
-                            
-                              delete 
-                            </v-btn>
-                            <editDialog :pID="index" :arrayBotones="arrayBotones" v-if="adminOptions===true" />
-                          </v-row>
-
-                      
-
-                    
-                    </div> 
-                            
-            </v-col>
-          </v-row>
-          <!--
-          <v-row>
             <v-col cols="12" lg="6">
               <h2 class="font-weight-bold text-center "> pINTEGRO </h2>
               <v-img
@@ -102,16 +42,16 @@
                 <h3 class="pa-4 font-weight-bold text-center "> Novedades</h3>
                 <v-card flat class="d-flex justify-center">
                 <ul>
-                    `<li>Búsqueda en los cobros 
-                    registrados </li>
-                    <li>Cobradores en orden 
-                    Alfabético</li>
-                    <li>Mejora visual en la
-                    transferencia</li>
-                    <li>Confirmación antes
-                    de transferir archivos</li>
-                    <li>Control de fecha del
-                    equipo y sistema</li>`
+<li>Búsqueda en los cobros 
+registrados </li>
+<li>Cobradores en orden 
+Alfabético</li>
+<li>Mejora visual en la
+transferencia</li>
+<li>Confirmación antes
+de transferir archivos</li>
+<li>Control de fecha del
+equipo y sistema</li>
                 </ul>
                 </v-card>
               </v-container>
@@ -152,25 +92,70 @@
                 <h3 class="pa-4 font-weight-bold text-center "> Novedades</h3>
                 <v-card class="d-flex justify-center" flat>
                 <ul>
-                        <li>Búsqueda en los cobros 
-                        registrados </li>
-                        <li>Cobradores en orden 
-                        Alfabético</li>
-                        <li>Mejora visual en la
-                        transferencia</li>
-                        <li>Confirmación antes
-                        de transferir archivos</li>
-                        <li>Control de fecha del
-                        equipo y sistema</li>
+<li>Búsqueda en los cobros 
+registrados </li>
+<li>Cobradores en orden 
+Alfabético</li>
+<li>Mejora visual en la
+transferencia</li>
+<li>Confirmación antes
+de transferir archivos</li>
+<li>Control de fecha del
+equipo y sistema</li>
                 </ul>
                 </v-card>
               </v-container>
             </v-col>
           </v-row>
 
-             ARRAY BOTONES -->
+            <!-- ARRAY BOTONES -->
             <!-- -->
+<v-row>
+  <v-col cols="12" lg="6" >
+    <div class="d-flex justify-center">
+      <v-row justify="center" v-if="adminOptions===true">
+        
+        <Dialog  @update="update()" />
 
+      </v-row>
+    </div>
+      <div
+        v-for="(btn, index) in arrayBotones"
+        :key="btn"
+        class="pt-2 px-2"                
+        >
+            <v-row
+              align="center"
+              justify="center"
+              class="pa-0"
+              >
+              <v-btn
+                :id="btn.btn_id"
+                :href="btn.btn_link" 
+                height="100" 
+                block x-large 
+                max-width="20"
+                :color="btn.btn_color" 
+                dark
+                  > <p class="no-uppercase pt-4"> {{btn.btn_texto}} </p>
+              </v-btn>
+              <v-btn
+                class="rounded-sm"
+                dark
+                v-if="adminOptions===true"
+                @click="deleteBtn(btn.btn_id)">
+              
+                delete 
+              </v-btn>
+              <editDialog :pID="index" :arrayBotones="arrayBotones" v-if="adminOptions===true" />
+            </v-row>
+
+        
+
+       
+      </div>  
+  </v-col>
+</v-row>
         </v-container>
         <v-container class="hidden-sm-and-up " >
             <v-row class="">
@@ -245,7 +230,6 @@ export default {
       clave: null,
       accesoClave: "3224",
       arrayBotones: [],
-      arrayApp:[],
       timestamp: ""
     }),
   methods: {
@@ -291,9 +275,8 @@ export default {
             axios.post('/api/buttons', null).then(response => {
               //Si la consulta SQL fue exitosa
               if (response.data.message === "Success")
-                console.log(response.data.queryButtons),
-                this.arrayBotones = response.data.queryButtons,
-                this.arrayApp = response.data.queryApp
+                //console.log(response.data.queryButtons),
+                this.arrayBotones = response.data.queryButtons
                 //Si fallo la consulta SQL
               else {console.log(response.data.message) }
             }).catch(error =>{

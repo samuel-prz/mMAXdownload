@@ -57,6 +57,7 @@ export default {
       if (this.clave === this.accesoClave) {
         //console.log("Correcto")
         this.adminOptions = true
+        this.dialog = false
         this.disabled = true
         this.$emit('acceder', this.adminOptions)
       } else {
