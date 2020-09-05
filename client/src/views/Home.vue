@@ -37,7 +37,7 @@
                   <div class="d-flex justify-center">
                     <v-row justify="center" v-if="adminOptions===true">
                       
-                      <Dialog  @update="update()" />
+                      <Dialog :indexApp="indexApp" :arrayApp="arrayApp" @update="update()" />
 
                     </v-row>
                   </div>

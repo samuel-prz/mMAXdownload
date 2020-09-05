@@ -69,6 +69,7 @@ import axios from 'axios'
 
 export default {
     name: 'Dialog',
+    props: ['indexApp', 'arrayApp'],
     data() { 
         return {
             arrayBotones:[],
@@ -84,7 +85,7 @@ export default {
             newBtn_Rules: [
                 v => v.lenght > 3 || 'Llene los campos'
             ],
-            props: ['text_fields'],
+            
             swatches: [
                 ['#FF0000', '#AA0000', '#550000'],
                 ['#FFFF00', '#AAAA00', '#555500'],
@@ -104,7 +105,8 @@ export default {
                 pVersion: this.pVersion,
                 pLink: this.pLink,
                 pFile: this.pFile,
-                pTexto: this.pTexto
+                pTexto: this.pTexto,
+                pIDapp: this.arrayApp[this.indexApp].app_id
                 
                 
             }

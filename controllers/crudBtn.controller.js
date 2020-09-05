@@ -8,7 +8,7 @@ controllers.createButtons = async (req,res) => {
                //realizamos una  consulta ,
         //console.log(req.body.pTexto)
         //if(req.body)
-            var createButtons = await pool.query("INSERT INTO `botones` (`btn_texto`, `btn_link`, `btn_color`, `btn_version`, `btn_fecha`, `btn_estado`) VALUES ('"+req.body.pTexto+"', '"+req.body.pLink+"', '"+req.body.pColor+"', '"+req.body.pVersion+"', '"+req.body.pFecha+"', '1')");
+            var createButtons = await pool.query("INSERT INTO `botones` (`btn_texto`, `app_id`, `btn_link`, `btn_color`, `btn_version`, `btn_fecha`, `btn_estado`) VALUES ('"+req.body.pTexto+"', '"+req.body.pIDapp+"', '"+req.body.pLink+"', '"+req.body.pColor+"', '"+req.body.pVersion+"', '"+req.body.pFecha+"', '1')");
             
             //console.log(createButtons)
             //Si la consulta no dio 0 resultados
