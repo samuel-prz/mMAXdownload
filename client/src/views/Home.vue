@@ -19,7 +19,8 @@
             </v-row>
         </v-container>
         <v-container>
-          <h1  class="display-1 my-6 font-weight-bold text-center "> Descargar APKs </h1>
+          <h1  class="display-1 my-6 font-weight-bold text-center "> Descargar APKs <newAppDialog v-if="adminOptions===true" /> </h1>
+          
           <v-row>
             <v-col 
             v-for="(app, indexApp) in arrayApp"
@@ -38,7 +39,14 @@
                     <v-row justify="center" v-if="adminOptions===true">
                       
                       <Dialog :indexApp="indexApp" :arrayApp="arrayApp" @update="update()" />
-
+                      <v-btn
+                        class="rounded-sm"
+                        dark
+                        v-if="adminOptions===true"
+                        @click="deleteApp(app.app_id)">
+                      
+                        delete app 
+                      </v-btn>
                     </v-row>
                   </div>
                     <div        
@@ -212,13 +220,15 @@ import axios from 'axios'
 import Footer from '../components/footer'
 import Dialog from '../components/Dialog'
 import editDialog from '../components/editDialog'
+import newAppDialog from '../components/newAppDialog'
  
 export default {
   name: 'Home',
   components: {
     Footer,
     Dialog,
-    editDialog
+    editDialog,
+    newAppDialog
   },
   async created() {
         setInterval(this.getNow, 1000);
@@ -278,6 +288,27 @@ export default {
               console.log(error)
           }
 
+    },
+    async deleteApp(pID){
+          const appDel = {
+            pID: pID
+          }
+          try {
+              //Envia los datos al servidor 
+              axios.post('/api/deleteApp', appDel).then(response => {
+                //Si la consulta SQL fue exitosa
+                if (response.data.message === "Success")
+                  console.log("Success delete App"),
+                  this.update()
+                  //Si fallo la consulta SQL
+                else {console.log(response.data.message) }
+              }).catch(error =>{
+                console.log(error)
+              })
+          } catch (error) {
+              console.log("Error en el servidor(req or response)...")
+              console.log(error)
+          }
     },
     async acceder(adminOptions) {
         console.log("Correcto")
